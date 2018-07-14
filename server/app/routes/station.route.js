@@ -10,8 +10,8 @@ router.get('/stations', async (req, res, next) => {
 
 // get the list of stations
 router.get('/stations/:id', async (req, res, next) => {
-  const stations = await Station.find();
-  res.send(stations);
+  const station = await Station.findById(req.params.id);
+  res.send(station);
 });
 
 module.exports = router;

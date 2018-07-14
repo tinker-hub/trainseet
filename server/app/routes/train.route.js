@@ -9,8 +9,7 @@ router.get('/trains', async (req, res, next) => {
 });
 
 router.get('/trains/:id', async (req, res, next) => {
-  const id = req.params.id;
-  const train = await Train.findById(id);
+  const train = await Train.findById(req.params.id);
   res.send(train);
 });
 
