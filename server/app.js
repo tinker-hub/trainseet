@@ -50,6 +50,7 @@ server.listen(port, async () => {
 
 io.on('connection', async (socket) => {
   socket.on('train', async (data) => {
+    console.log(data);
     const train = await Train.findById(data._id);
     train.set({
       direction: data.direction,
