@@ -58,4 +58,14 @@ io.on('connection', async (socket) => {
   });
 });
 
+(async () => {
+  const stations = require('./app/data/station.json');
+  await Station.deleteMany();
+  await Bluebird.map(stations, async (station, index) => {
+    station.position = index;
+    await Station.create(station);
+  });
+  console.log(await Station.find().exec());
+})();
+
 bootBot.start();
