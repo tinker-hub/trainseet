@@ -50,17 +50,16 @@ server.listen(port, async () => {
 
 io.on('connection', async (socket) => {
   socket.on('train', async (data) => {
-    console.log(data);
-    // const train = await Train.findById(data._id);
-	  // console.log(train);
-    // if (train.location && train.location.coordinates) {
-    //   await Bluebird.map(train.destinations, async (destination) => {
-    //     const station = await Station.findById(destination.station);
-    //     const distance = geoService.computeDistance(train.location.coordinates, station.location.coordinates);
-    //     destination.eta = train.speed ? distance / train.speed : 0;
-    //   }, { concurrency: 10 });
-    //   train.save();    
-    // }
+    const train = await Train.findById(data._id);
+	  console.log(train);
+    if (train.location && train.location.coordinates) {
+      await Bluebird.map(train.destinations, async (destination) => {
+        const station = await Station.findById(destination.station);
+        const distance = geoService.computeDistance(train.location.coordinates, station.location.coordinates);
+        destination.eta = train.speed ? distance / train.speed : 0;
+      }, { concurrency: 10 });
+      train.save();    
+    }
     socket.emit('eta', train.toJSON());
     // train.set({
     //   direction: data.direction,
