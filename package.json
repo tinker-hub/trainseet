@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/tinker-hub/trainseet#readme",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
     "bootbot": "^1.0.16",
     "dotenv": "^6.0.0",
