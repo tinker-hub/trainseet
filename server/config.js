@@ -1,9 +1,9 @@
 module.exports = {
   twitter: {
-    consumer_key: process.env.CONSUMER_KEY || '2IrcQ0cXKk8jEJcL37blzaYY3',
-    consumer_secret: process.env.CONSUMER_SECRET || 'nHwKhCjHov5CRNdoNChjcHKTPG9tTFIK8pdtnGWBf8eMy0Mxi0',
-    access_token_key: process.env.ACCESS_TOKEN_KEY || '1017975558284632064-vvOZv1wutuJVc8nTQpNbMWgwssvR6B',
-    access_token_secret: process.env.ACCESS_TOKEN_SECRET || '1CMxlwsdvZ9lXOQ5ccu7SMqOv8s4ocjYibeXD6VA2VZcc'
+    consumer_key: process.env.CONSUMER_KEY || '4hjMHohOn25PyE39KIu4BcuEC',
+    consumer_secret: process.env.CONSUMER_SECRET || 'f9MVoal6tiIla62tZOrPKlzmJG4UYwxbfM3Otwsl7LkENcK9Jv',
+    access_token_key: process.env.ACCESS_TOKEN_KEY || '1018262954540613632-DXldK62iecNrfto9H4LkALvzZ9DTip',
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET || 'NtrJJYot7t7uX4xQUbMNoyrp8BgIcE4EG7aMLirBu6bDX'
   },
   streamTracks: [ // standard account can only stream one track
     // 'from:officialLRT1',
