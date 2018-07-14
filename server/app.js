@@ -50,6 +50,7 @@ server.listen(port, async () => {
 
 io.on('connection', async (socket) => {
   socket.on('train', async (data) => {
+    console.log(data);
     const train = await Train.findById(data._id);
 	  console.log(train);
     if (train.location && train.location.coordinates) {
@@ -57,6 +58,7 @@ io.on('connection', async (socket) => {
         const station = await Station.findById(destination.station);
         const distance = geoService.computeDistance(train.location.coordinates, station.location.coordinates);
         destination.eta = train.speed ? distance / train.speed : 0;
+        console.log(destination);
       }, { concurrency: 10 });
       train.save();    
     }
