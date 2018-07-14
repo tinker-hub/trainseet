@@ -14,7 +14,10 @@ module.exports = {
     });
 
     bootBot.hear(botDialogs.quick.intent, (payload, chat) => {
-      chat.say(botDialogs.quick.response);
+      chat.say({
+        text: botDialogs.quick.response.text,
+        quickReplies: ['red', 'blue', 'yellow']
+      });
     });
   }
 }

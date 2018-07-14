@@ -11,7 +11,7 @@ module.exports = {
       'hey',
       'sup'
     ],
-    response: 'Hey %@name, How are you today?'
+    response: 'Hey %@, How are you today?'
   },
   help: {
     intent: 'Help',
