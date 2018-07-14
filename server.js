@@ -60,11 +60,11 @@ io.on('connection', async (socket) => {
 
 (async () => {
   const stations = require('./app/data/station.json');
+  const trains = require('./app/data/train.json');
   await Station.deleteMany();
-  await Bluebird.map(stations, async (station, index) => {
-    station.position = index;
-    await Station.create(station);
-  });
+  await Station.create(stations);
+  await Train.deleteMany();
+  await Train.create(trains);
   console.log(await Station.find().exec());
 })();
 
