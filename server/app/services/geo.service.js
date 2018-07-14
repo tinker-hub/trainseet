@@ -1,7 +1,5 @@
 function GeoService() {
   this.computeDistance = (coordinateA, coordinateB) => {
-    console.log(coordinateA);
-    console.log(coordinateB);
     return Math.sqrt(
       (
         (coordinateA[0] - coordinateB[0]) * (coordinateA[0] - coordinateB[0])
