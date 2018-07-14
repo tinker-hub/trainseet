@@ -9,6 +9,8 @@ const Train = require('./app/models/train.model');
 const Station = require('./app/models/station.model');
 const bootBot = require('./app/bootbot/index');
 
+const geoService = require('./app/services/geo.service');
+
 const port = 8081;
 const app = express();
 const server = http.createServer(app);
@@ -48,14 +50,23 @@ server.listen(port, async () => {
 
 io.on('connection', async (socket) => {
   socket.on('train', async (data) => {
-    console.log(data);
     const train = await Train.findById(data._id);
-    train.set({
-      direction: data.direction,
-      location: data.location,
-      speed: data.speed
-    });
-    await train.save();
+    if (train) 
+    await Bluebird.map(train.destinations, async (destination) => {
+      const station = await Station.findById(destination.station);
+      const distance = geoService.computeDistance(train.location || [0, 0], station.location.coordinates);
+      destination.eta = distance / train.speed;
+    }, { concurrency: 10 });
+    console.log(train.toJSON());
+    // train.save();
+    socket.emit('eta', train.toJSON());
+    // train.set({
+    //   direction: data.direction,
+    //   location: data.location,
+    //   speed: data.speed
+    // });
+
+    // await train.save();
     // const destination = await Station.findOne().sort({
     //   index: train.direction === 'N' ? 'asc' : 'desc'
     // }).exec();
@@ -65,15 +76,21 @@ io.on('connection', async (socket) => {
   });
 });
 
-(async () => {
-  const stations = require('./app/data/station.json');
-  const trains = require('./app/data/train.json');
-  await Station.deleteMany();
-  await Station.create(stations);
-  await Train.deleteMany();
-  await Train.create(trains);
-  // console.log(await Station.find().exec());
-  // console.log(await Train.find().exec());
-})();
+// (async () => {
+//   let stations = require('./app/data/station.json');
+//   let trains = require('./app/data/train.json');
+//   await Station.deleteMany();
+//   await Station.create(stations);
+//   stations = await Station.find();
+//   trains.forEach(train => {
+//     train.destinations = [];
+//     stations.forEach(station => train.destinations.push({ station: station._id }));
+//   });
+//   console.dir(trains[0]);
+//   await Train.deleteMany();
+//   await Train.create(trains);
+//   console.log(await Station.find().exec());
+//   console.log(await Train.find().exec());
+// })();
 
 bootBot.start();
