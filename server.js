@@ -66,6 +66,7 @@ io.on('connection', async (socket) => {
   await Train.deleteMany();
   await Train.create(trains);
   console.log(await Station.find().exec());
+  console.log(await Train.find().exec());
 })();
 
 bootBot.start();
