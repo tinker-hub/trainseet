@@ -59,7 +59,8 @@ io.on('connection', async (socket) => {
     if (data.location && data.location.coordinates) {
       await Bluebird.map(train.destinations, async (destination) => {
         const station = await Station.findById(destination.station);
-        const distance = geoService.computeDistance(train.location.coordinates, station.location.coordinates);
+        let distance = geoService.computeDistance(train.location.coordinates, station.location.coordinates);
+        distance = distance * 1000 * 100; // convert to meters
         destination.eta = train.speed ? distance / train.speed : 0;
       }, { concurrency: 10 });
       await train.save();
