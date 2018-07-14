@@ -1,0 +1,28 @@
+{
+  "name": "trainseet",
+  "version": "0.0.1",
+  "description": "Trainseet Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinker-hub/trainseet.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tinker-hub/trainseet/issues"
+  },
+  "homepage": "https://github.com/tinker-hub/trainseet#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.10",
+    "mongoose": "^5.2.3",
+    "socket.io": "^2.1.1"
+  }
+}
