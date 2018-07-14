@@ -2,14 +2,21 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const http = require('http');
+const dotenv = require('dotenv');
 
 const Train = require('./app/models/train.model');
 const Station = require('./app/models/station.model');
+const bootBot = require('./app/bootbot/index');
 
 const port = 8081;
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
+
+/**
+ * Put .env into process.env
+ */
+dotenv.config();
 
 // connect to mongodb
 mongoose.connect('mongodb://localhost:27017/lrt', { useNewUrlParser: true });
@@ -21,6 +28,7 @@ app.use(bodyParser.json());
 // initialize routes
 app.use('/api', require('./app/routes/train.route'));
 app.use('/api', require('./app/routes/station.route'));
+app.use(require('./app/routes/webhook.route'));
 
 // error handling middleware
 app.use((err, req, res, next) => {
@@ -48,3 +56,5 @@ io.on('connection', async (socket) => {
     socket.emit('eta', eta);
   });
 });
+
+bootBot.start();
