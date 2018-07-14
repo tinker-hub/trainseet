@@ -25,11 +25,17 @@ mongoose.Promise = global.Promise;
 
 // use body-parser middleware
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 // initialize routes
 app.use('/api', require('./app/routes/train.route'));
 app.use('/api', require('./app/routes/station.route'));
 app.use(require('./app/routes/webhook.route'));
+app.use(express.static('./client'));
+
+app.get('*', (req, res) => {
+	res.sendFile('index.html', { root: './client' });
+});
 
 // error handling middleware
 app.use((err, req, res, next) => {
@@ -42,6 +48,7 @@ server.listen(port, async () => {
 
 io.on('connection', async (socket) => {
   socket.on('train', async (data) => {
+    console.log(data);
     const train = await Train.findById(data._id);
     train.set({
       direction: data.direction,
@@ -49,12 +56,12 @@ io.on('connection', async (socket) => {
       speed: data.speed
     });
     await train.save();
-    const destination = await Station.findOne().sort({
-      index: train.direction === 'N' ? 'asc' : 'desc'
-    }).exec();
-    const distance = Math.sqrt(((train.location[0] - destination.location[0])) + ((train.location[1] - destination.location[1])))
-    const eta = distance / train.speed;
-    socket.emit('eta', eta);
+    // const destination = await Station.findOne().sort({
+    //   index: train.direction === 'N' ? 'asc' : 'desc'
+    // }).exec();
+    // const distance = Math.sqrt(((train.location[0] - destination.location[0])) + ((train.location[1] - destination.location[1])))
+    // const eta = distance / train.speed;
+    // socket.emit('eta', eta);
   });
 });
 
@@ -65,8 +72,8 @@ io.on('connection', async (socket) => {
   await Station.create(stations);
   await Train.deleteMany();
   await Train.create(trains);
-  console.log(await Station.find().exec());
-  console.log(await Train.find().exec());
+  // console.log(await Station.find().exec());
+  // console.log(await Train.find().exec());
 })();
 
 bootBot.start();
