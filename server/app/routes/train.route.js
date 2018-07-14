@@ -3,15 +3,11 @@ const router = express.Router();
 const Train = require('../models/train.model');
 const Station = require('../models/station.model');
 const Bluebird = require('bluebird');
+const trainService = require('../services/train.service');
 
 // get the list of trains
 router.get('/trains', async (req, res, next) => {
-  const trains = await Train.find()
-  await Bluebird.map(trains, async (train) => {
-    await Bluebird.map(train.destinations, async (destination) => {
-      destination.station = await Station.findById(destination.station);
-    });
-  });
+  const trains = await trainService.getTrains();
   res.send(trains);
 });
 

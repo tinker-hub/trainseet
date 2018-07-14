@@ -1,6 +1,8 @@
 const bcryptService = require('../services/bcrypt.service');
 const jwtService = require('../services/jsonwebtoken.service');
 const Train = require('../models/train.model');
+const Station = require('../models/station.model');
+const Bluebird = require('bluebird');
 
 class TrainService {
   async login(data) {
@@ -13,6 +15,15 @@ class TrainService {
       name: token.name
     });
     return { token: token, train: train };
+  }
+  async getTrains() {
+    const trains = await Train.find()
+    await Bluebird.map(trains, async (train) => {
+      await Bluebird.map(train.destinations, async (destination) => {
+        destination.station = await Station.findById(destination.station);
+      });
+    });
+    return trains;
   }
 }
 
