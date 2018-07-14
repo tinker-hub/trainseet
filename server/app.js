@@ -55,7 +55,7 @@ server.listen(port, async () => {
 
 
 const streamTo = (trackFilter = '', streamHandler = (err, tweet) => {}) => {
-  console.log(trackFilter);
+  console.log('trackFilter', trackFilter);
   client.stream('statuses/filter', { track: trackFilter }, (stream) => {
     stream.on('data', (tweet) => {
       streamHandler(null, tweet);
@@ -68,8 +68,8 @@ const streamTo = (trackFilter = '', streamHandler = (err, tweet) => {}) => {
 
 io.on('connection', async (socket) => {
 
-  streamTo(config.streamTracks.pop(), (err, tweet) => {
-    console.log(err);
+  streamTo(config.streamTracks[0], (err, tweet) => {
+    console.log('err', err);
     if (err) return err;
     const data = _.pick(tweet, ['text', 'created_at', 'user.name', 'user.screen_name', 'user.profile_image_url', 'user.profile_image_url_https']);
     socket.emit('tweet', { data });
