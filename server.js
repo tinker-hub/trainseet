@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const http = require('http');
 const dotenv = require('dotenv');
+const localTunnel = require('localtunnel');
 
 const Train = require('./app/models/train.model');
 const Station = require('./app/models/station.model');
@@ -37,6 +38,9 @@ app.use((err, req, res, next) => {
 
 server.listen(port, async () => {
   console.log(`server listening on port ${port}`);
+  localTunnel(process.env.BOT_PORT, { subdomain: process.env.BOT_SUB_DOMAIN }, (err, tunnel) => {
+    console.log(`bot webhook listening on ${tunnel.url}`);
+  });
 });
 
 io.on('connection', async (socket) => {

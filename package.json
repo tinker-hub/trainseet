@@ -5,7 +5,6 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lt": "lt --port 3000 --subdomain jmaicaaan",
     "start": "node ."
   },
   "repository": {
