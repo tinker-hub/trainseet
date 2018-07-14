@@ -51,6 +51,7 @@ server.listen(port, async () => {
 io.on('connection', async (socket) => {
   socket.on('train', async (data) => {
     const train = await Train.findById(data._id);
+	console.log(train);
     if (train.location && train.location.coordinates) {
       await Bluebird.map(train.destinations, async (destination) => {
         const station = await Station.findById(destination.station);
