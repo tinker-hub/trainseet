@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const http = require('http');
 const dotenv = require('dotenv');
-const localTunnel = require('localtunnel');
+const Bluebird = require('bluebird');
 
 const Train = require('./app/models/train.model');
 const Station = require('./app/models/station.model');
@@ -14,9 +14,9 @@ const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 
-/**
- * Put .env into process.env
- */
+// /**
+//  * Put .env into process.env
+//  */
 dotenv.config();
 
 // connect to mongodb
@@ -60,5 +60,16 @@ io.on('connection', async (socket) => {
     socket.emit('eta', eta);
   });
 });
+
+(async () => {
+  const stations = require('./app/data/station.json');
+  const trains = require('./app/data/train.json');
+  await Station.deleteMany();
+  await Station.create(stations);
+  await Train.deleteMany();
+  await Train.create(trains);
+  console.log(await Station.find().exec());
+  console.log(await Train.find().exec());
+})();
 
 bootBot.start();
