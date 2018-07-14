@@ -21,7 +21,22 @@ module.exports = {
     intent: "quick",
     response: {
       text: "Which station are you taking?",
-      quickReplies: _.map(stations, 'name')
+      quickReplies: _.map(stations, 'name').splice(0, 3)
     }
+  },
+  eta: {
+    trainArrival: {
+      intents: [
+        'What time will the train arrive?'
+      ],
+      response: 'What is your current station?'
+    }
+  },
+  density: {
+    intents: [
+      'What is the current situation in',
+      'current situation'
+    ],
+    response: 'Test'
   }
 }
