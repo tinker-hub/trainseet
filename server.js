@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const http = require('http');
-// const dotenv = require('dotenv');
+const dotenv = require('dotenv');
 const Bluebird = require('bluebird');
 
 const Train = require('./app/models/train.model');
@@ -17,7 +17,7 @@ const io = require('socket.io')(server);
 // /**
 //  * Put .env into process.env
 //  */
-// dotenv.config();
+dotenv.config();
 
 // connect to mongodb
 mongoose.connect('mongodb://localhost:27017/lrt', { useNewUrlParser: true });
