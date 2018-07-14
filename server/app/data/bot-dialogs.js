@@ -34,7 +34,7 @@ module.exports = {
   },
   density: {
     intents: [
-      'What is the current situation in',
+      '\bWhat is the current situation in\b',
       'current situation'
     ],
     response: 'Test'
