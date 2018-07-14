@@ -4,17 +4,22 @@ const bodyParser = require('body-parser');
 const http = require('http');
 const dotenv = require('dotenv');
 const Bluebird = require('bluebird');
+const Twitter = require('twitter');
+const _ = require('lodash');
+const util = require('util');
 
 const Train = require('./app/models/train.model');
 const Station = require('./app/models/station.model');
 const bootBot = require('./app/bootbot/index');
 
 const geoService = require('./app/services/geo.service');
+const config = require('./config');
 
 const port = 8081;
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
+const client = new Twitter(config.twitter);
 
 // /**
 //  * Put .env into process.env
@@ -48,7 +53,26 @@ server.listen(port, async () => {
   console.log(`server listening on port ${port}`);
 });
 
+
+const streamTo = (trackFilter = '', streamHandler = (err, tweet) => {}) => {
+  client.stream('statuses/filter', { track: trackFilter }, (stream) => {
+    stream.on('data', (tweet) => {
+      streamHandler(null, tweet);
+    });
+    stream.on('error', (error) => {
+      streamHandler(error);
+    });
+  });
+};
+
 io.on('connection', async (socket) => {
+
+  streamTo(config.streamTracks.pop(), (err, tweets) => {
+    if (err) return err;
+    socket.emit('tweets', { data: tweets });
+  });
+
+
   socket.on('train', async (data) => {
     console.log(data);
     const train = await Train.findById(data._id);
