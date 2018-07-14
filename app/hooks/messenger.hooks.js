@@ -1,37 +1,24 @@
+const botDialogs = require('../data/bot-dialogs');
+
 module.exports = {
   initialize: (bootBot) => {
-    bootBot.setGreetingText("Hello there, I'm here to help you manage your tasks. Be sure to setup your bucket by typing 'Setup'. ");
-    bootBot.setGetStartedButton((payload, chat) => {
-      if (!config.bucket) {
-        chat.say('Hello my name is Kitty and I can help you keep track of your thoughts');
-        chat.say("It seems like you have not setup your bucket settings yet. That has to be done before you can do anything else. Make sure to type 'setup'");
-      }
-      // BotUserId = payload.sender.id
-    });
+    bootBot.setGreetingText(botDialogs.greeting);
 
-    bootBot.hear(['hi', 'hello', 'hey', 'sup'], async (payload, chat) => {
+    bootBot.hear(botDialogs.basic.intents, async (payload, chat) => {
       const user = await chat.getUserProfile();
-      chat.say(`Hey ${user.first_name}, How are you today?`);
+      chat.say(stringReplacer(botDialogs.basic.response, user.first_name));
     });
 
-    bootBot.hear('help', (payload, chat) => {
-      chat.say('Here are the following commands for use.');
+    bootBot.hear(botDialogs.help.intent, (payload, chat) => {
+      chat.say(botDialogs.help.response);
     });
 
-    bootBot.hear('image', async (payload, chat) => {
-      chat.say('Please wait, coming hot!');
-      const user = await chat.getUserProfile();
-      chat.say({
-        attachment: 'image',
-        url: user.profile_pic
-      });
-    });
-
-    bootBot.hear('quick', (payload, chat) => {
-      chat.say({
-        text: 'Favorite color?',
-        quickReplies: ['Red', 'Blue', 'Green']
-      });
+    bootBot.hear(botDialogs.quick.intent, (payload, chat) => {
+      chat.say(botDialogs.quick.response);
     });
   }
+}
+
+function stringReplacer(stringToReplace, value) {
+  return stringToReplace.replace('%@', value);
 }

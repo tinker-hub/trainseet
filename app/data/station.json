@@ -2,13 +2,181 @@
   {
     "name": "Baclaran",
     "location": {
-      "coordinates": [ 120.997793, 14.5342872 ]
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
     }
   },
   {
-    "name": "Edsa",
+    "name": "EDSA",
     "location": {
-      "coordinates": [ 120.998564, 14.5391672 ]
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Libertad",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Gil Puyat",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Vito Cruz",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Quirino",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Pedro Gil",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "U.N. Avenue",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Central",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Carriedo",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Doroteo Jose",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Bambang",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Tayuman",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Blumentritt",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Abad Santos",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "R. Papa",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "5th Avenue",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Monumento",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Balintawak",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
+    }
+  },
+  {
+    "name": "Roosevelt",
+    "location": {
+      "coordinates": [
+        120.998564,
+        14.5391672
+      ]
     }
   }
 ]
