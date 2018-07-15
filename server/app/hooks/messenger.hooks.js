@@ -29,6 +29,7 @@ module.exports = {
     });
 
     bootBot.hear(botDialogs.salamat.intents, (payload, chat) => {
+      const user = await chat.getUserProfile();
       chat.say(stringReplacer(botDialogs.salamat.response, user.first_name));
     });
 
