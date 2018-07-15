@@ -28,6 +28,10 @@ module.exports = {
       chat.say(botDialogs.eta.trainArrival.response, { typing: true });
     });
 
+    bootBot.hear(botDialogs.salamat.intents, (payload, chat) => {
+      chat.say(botDialogs.salamat.response);
+    });
+
     bootBot.hear(botDialogs.density.intents, (payload, chat) => {
       chat.conversation((convo) => {
         const ask = {

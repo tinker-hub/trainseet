@@ -38,5 +38,13 @@ module.exports = {
       'current situation'
     ],
     response: 'Test'
+  },
+  salamat: {
+    intents: [
+      'thank you',
+      'thanks',
+      'ty'
+    ],
+    response: `You're welcome, %@`
   }
 }
