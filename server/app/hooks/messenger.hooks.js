@@ -28,7 +28,7 @@ module.exports = {
       chat.say(botDialogs.eta.trainArrival.response, { typing: true });
     });
 
-    bootBot.hear(botDialogs.salamat.intents, (payload, chat) => {
+    bootBot.hear(botDialogs.salamat.intents, async (payload, chat) => {
       const user = await chat.getUserProfile();
       chat.say(stringReplacer(botDialogs.salamat.response, user.first_name));
     });
