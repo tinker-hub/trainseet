@@ -15,7 +15,7 @@ const socket = io.connect(url);
     location: {
       coordinates: [120.980373, 14.6113278]
     },
-    _id: trains[0]._id,
+    _id: trains[1]._id,
     speed: 7.5
   };
   socket.emit('train', train1);

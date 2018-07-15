@@ -29,7 +29,7 @@ module.exports = {
     });
 
     bootBot.hear(botDialogs.salamat.intents, (payload, chat) => {
-      chat.say(botDialogs.salamat.response);
+      chat.say(stringReplacer(botDialogs.salamat.response, user.first_name));
     });
 
     bootBot.hear(botDialogs.density.intents, (payload, chat) => {
