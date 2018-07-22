@@ -1,4 +1,4 @@
-const url = 'http://localhost:8080';
+const url = 'https://trainseet.tk';
 const socket = io.connect(url);
 const divCounter = document.getElementById('counter');
 

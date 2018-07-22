@@ -106,7 +106,7 @@ io.on('connection', async (socket) => {
 		const thresholded = blurred.threshold(15, 255, 0);
 		const density = (thresholded.countNonZero() / (480 * 640) ) * 100;
 		socket.emit('density', density);
-		cv.imshow('thresholded', thresholded);
+		// cv.imshow('thresholded', thresholded);
 	});
 });
 
