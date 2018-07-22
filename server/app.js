@@ -6,7 +6,9 @@ const dotenv = require('dotenv');
 const Bluebird = require('bluebird');
 const Twitter = require('twitter');
 const _ = require('lodash');
-const util = require('util');
+const cv = require('opencv4nodejs');
+const utils = require('./utils');
+
 
 const Train = require('./app/models/train.model');
 const Station = require('./app/models/station.model');
@@ -19,6 +21,8 @@ const port = 8081;
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
+const bgSubtractor = new cv.BackgroundSubtractorMOG2();
+const capture = new cv.VideoCapture(0);
 const client = new Twitter(config.twitter);
 
 // /**
@@ -107,6 +111,17 @@ io.on('connection', async (socket) => {
     // const eta = distance / train.speed;
     // socket.emit('eta', eta);
   });
+
+  let baseFrame;
+	utils.grabFrames(capture, 1, (frame) => {
+		if(!baseFrame) baseFrame = utils.preprocessedFrame(frame)
+		const subtractedFrame = baseFrame.absdiff(utils.preprocessedFrame(frame));
+		const blurred = subtractedFrame.blur(new cv.Size(12, 12));
+		const thresholded = blurred.threshold(15, 255, 0);
+		const density = (thresholded.countNonZero() / (480 * 640) ) * 100;
+		socket.emit('density', density);
+		cv.imshow('thresholded', thresholded);
+	});
 });
 
 // (async () => {

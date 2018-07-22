@@ -1,5 +1,7 @@
 const url = 'http://localhost:8081';
 const socket = io.connect(url);
+const divCounter = document.getElementById('counter');
+
 
 (async () => {
   const response = await fetch(`${url}/api/trains/`);
@@ -15,4 +17,7 @@ const socket = io.connect(url);
   socket.on('eta', (data)=> {
     console.log(data);
   })
+  socket.on('density', function (data) {
+    divCounter.innerHTML = `density: ${parseInt(data)} %`;
+  });  
 })();
