@@ -8,7 +8,7 @@ const Twitter = require('twitter');
 const _ = require('lodash');
 const cv = require('opencv4nodejs');
 const utils = require('./utils');
-
+const path = require('path');
 
 const Train = require('./app/models/train.model');
 const Station = require('./app/models/station.model');
@@ -17,14 +17,13 @@ const bootBot = require('./app/bootbot/index');
 const geoService = require('./app/services/geo.service');
 const config = require('./config');
 
-const port = 8081;
+const port = 8080;
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 const bgSubtractor = new cv.BackgroundSubtractorMOG2();
-const capture = new cv.VideoCapture(0);
+const capture = new cv.VideoCapture(path.resolve('data', 'sample.mp4'));
 const client = new Twitter(config.twitter);
-
 // /**
 //  * Put .env into process.env
 //  */
@@ -97,19 +96,6 @@ io.on('connection', async (socket) => {
       await train.save();
     }
     socket.emit('eta', train);
-    // train.set({
-    //   direction: data.direction,
-    //   location: data.location,
-    //   speed: data.speed
-    // });
-
-    // await train.save();
-    // const destination = await Station.findOne().sort({
-    //   index: train.direction === 'N' ? 'asc' : 'desc'
-    // }).exec();
-    // const distance = Math.sqrt(((train.location[0] - destination.location[0])) + ((train.location[1] - destination.location[1])))
-    // const eta = distance / train.speed;
-    // socket.emit('eta', eta);
   });
 
   let baseFrame;
@@ -140,5 +126,6 @@ io.on('connection', async (socket) => {
 //   console.log(await Station.find().exec());
 //   console.log(await Train.find().exec());
 // })();
+
 
 bootBot.start();
