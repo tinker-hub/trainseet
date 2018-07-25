@@ -22,8 +22,10 @@ const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 const bgSubtractor = new cv.BackgroundSubtractorMOG2();
-const capture = new cv.VideoCapture(path.resolve('data', 'sample.mp4'));
+const capture = new cv.VideoCapture(path.resolve('data', 'output.mp4'));
 const client = new Twitter(config.twitter);
+let density;
+
 // /**
 //  * Put .env into process.env
 //  */
@@ -43,7 +45,7 @@ app.use('/api', require('./app/routes/station.route'));
 app.use(require('./app/routes/webhook.route'));
 app.use(express.static('./client'));
 
-app.get('*', (req, res) => {
+app.get('', (req, res) => {
 	res.sendFile('index.html', { root: './client' });
 });
 
@@ -52,31 +54,35 @@ app.use((err, req, res, next) => {
   res.status(500).send(err);
 });
 
+app.get('/api/density', (req, res) => {
+  return res.status(200).json({density: density});
+})
+
 server.listen(port, async () => {
   console.log(`server listening on port ${port}`);
 });
 
 
-const streamTo = (trackFilter = '', streamHandler = (err, tweet) => {}) => {
-  console.log('trackFilter', trackFilter);
-  client.stream('statuses/filter', { track: trackFilter }, (stream) => {
-    stream.on('data', (tweet) => {
-      streamHandler(null, tweet);
-    });
-    stream.on('error', (error) => {
-      streamHandler(error);
-    });
-  });
-};
+// const streamTo = (trackFilter = '', streamHandler = (err, tweet) => {}) => {
+//   console.log('trackFilter', trackFilter);
+//   client.stream('statuses/filter', { track: trackFilter }, (stream) => {
+//     stream.on('data', (tweet) => {
+//       streamHandler(null, tweet);
+//     });
+//     stream.on('error', (error) => {
+//       streamHandler(error);
+//     });
+//   });
+// };
 
 io.on('connection', async (socket) => {
 
-  streamTo(config.streamTracks[0], (err, tweet) => {
-    console.log('err', err);
-    if (err) return err;
-    const data = _.pick(tweet, ['text', 'created_at', 'user.name', 'user.screen_name', 'user.profile_image_url', 'user.profile_image_url_https']);
-    socket.emit('tweet', { data });
-  });
+  // streamTo(config.streamTracks[0], (err, tweet) => {
+  //   console.log('err', err);
+  //   if (err) return err;
+  //   const data = _.pick(tweet, ['text', 'created_at', 'user.name', 'user.screen_name', 'user.profile_image_url', 'user.profile_image_url_https']);
+  //   socket.emit('tweet', { data });
+  // });
 
   socket.on('train', async (data) => {
     console.log(data);
@@ -104,8 +110,12 @@ io.on('connection', async (socket) => {
 		const subtractedFrame = baseFrame.absdiff(utils.preprocessedFrame(frame));
 		const blurred = subtractedFrame.blur(new cv.Size(12, 12));
 		const thresholded = blurred.threshold(15, 255, 0);
-		const density = (thresholded.countNonZero() / (480 * 640) ) * 100;
-		socket.emit('density', density);
+		density = (thresholded.countNonZero() / (480 * 640) ) * 100;
+    socket.emit('density', density);
+    // socket.emit('frame', {
+    //   or: cv.imencode('.jpg', frame).toString('base64'), 
+    //   th: cv.imencode('.jpg', thresholded).toString('base64')
+    // });
 		// cv.imshow('thresholded', thresholded);
 	});
 });

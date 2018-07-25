@@ -1,5 +1,4 @@
 const cv = require('opencv4nodejs');
-
 exports.grabFrames = (cap, delay, onFrame) => {
   // const cap = new cv.VideoCapture(videoFile);
   let done = false;
