@@ -3,6 +3,7 @@ const jwtService = require('../services/jsonwebtoken.service');
 const Train = require('../models/train.model');
 const Station = require('../models/station.model');
 const Bluebird = require('bluebird');
+const _ = require('lodash');
 
 class TrainService {
   async login(data) {
@@ -22,6 +23,7 @@ class TrainService {
       await Bluebird.map(train.destinations, async (destination) => {
         destination.station = await Station.findById(destination.station);
       });
+      _.orderBy(train.destinations, 'position');
     });
     return trains;
   }
